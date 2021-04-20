@@ -15,7 +15,7 @@ library(ggplot2)
 library(here)
 ```
 
-```{r read}
+```{r read, warning=FALSE}
 # Read in data
 dat <- read_csv(here("data/Ixodes_data_unique.csv"))
 

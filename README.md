@@ -32,6 +32,7 @@ The proposed outcome of this workshop is a reusable Carpentries (https://carpent
 
 4  - How many records are in the trimmed GloBI datasets? Is there a difference between unique and not?
 > wc -l Ixodes_data.csv
+
 > wc -l Ixodes_data_unique.csv
 
 5 - Load trimmed dataset into R using R-studio
