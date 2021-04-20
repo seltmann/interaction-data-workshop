@@ -1,0 +1,88 @@
+---
+title: "Example R script for GloBI data"
+author: "Katja Seltmann"
+date: "04 15 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Load libraries
+library(tidyverse)
+library(rglobi)
+library(bipartite)
+library(igraph)
+library(ggplot2)
+```
+
+```{r}
+# Set working directory
+setwd("~/Documents/globi-workshop-2021")
+```
+```{r}
+# Read in data
+dat <- read.csv(file = "data/Ixodes_data_unique.csv")
+
+# Look at data structure
+str(dat)
+View(dat)
+```
+
+```{r}
+# Pull out if the source or target are X
+tick.source <- grep("Ixodes", dat$targetTaxonGenusName)
+tick.target <- grep("Ixodes", dat$sourceTaxonGenusName)
+
+
+# Only take unique observations
+tick.rows <- unique(c(tick.source, tick.target))
+
+str(tick.rows)
+```
+
+```{r}
+#data cleaning. Lowercase all and filter to remove sourceTaxonID = no:match
+dat <- filter(dat, dat$sourceTaxonId != "no:match")
+```
+
+#get interaction dataset
+interactions <- data.frame(dat$sourceTaxonName,dat$targetTaxonName,dat$interactionTypeName)
+
+unique(dat$sourceTaxonName)
+unique(dat$targetTaxonNam)
+unique(tolower(dat$targetTaxonNam))
+
+#create a new dataframe for a network graph (vertex, edges)
+bsk <- data.frame(dat$sourceTaxonName,dat$targetTaxonName)
+
+nrow(bsk)
+
+#unique taxa
+unique(dat$sourceTaxonName)
+
+#need to filter by interaction type
+unique(dat$targetTaxonName)
+unique(dat$sourceTaxonName)
+
+#look at data
+head(bsk)
+tail(bsk)
+
+
+#describe network
+bsk.network<-graph.data.frame(bsk, directed=F)
+
+#bipartite network
+g <- graph.incidence(bsk, weighted = T)
+
+#list the vertices
+V(bsk.network)
+
+#list the edges
+E(bsk.network)
+
+#plot the graph
+plot(bsk.network,vertex.size=5, vertex.label=NA)
+
+#plot(g ,vertex.size=5, vertex.label=NA, layout=layout_as_bipartite)
+
+

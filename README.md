@@ -25,10 +25,21 @@ The proposed outcome of this workshop is a reusable Carpentries (https://carpent
 ![GloBI Data Page](/photos/data.png)
 
 2 - How many records are in the GloBI dataset (interactions.tsv-snapshot)
-3 - Extract and make a file of only the Ixodes records using Globi_Ixodes_Data.sh script. Explain that .sh will help reducde size of dataset than can use R
-4 - Load trimmed dataset into R
-5 - Look at data headers
+> wc -l interactions.tsv
+
+3 - Extract and make a file of only the Ixodes records using Globi_Ixodes_Data.sh script. Explain that .sh will help reducde size of dataset than can use R. This will take ~ 4 minutes and 12 seconds!
+> sh Globi_Ixodes_data.sh
+
+4  - How many records are in the trimmed GloBI datasets? Is there a difference between unique and not?
+> wc -l Ixodes_data.tsv
+> wc -l Ixodes_data_unique.tsv
+
+5 - Load trimmed dataset into R using R-studio
+
+6 - Look at headers in dataset
+
 6 - Do some visualization
+
 7 - Put entire dataset into SQLlite database
 
 
