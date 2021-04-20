@@ -21,5 +21,15 @@ The proposed outcome of this workshop is a reusable Carpentries (https://carpent
 
 ### Ixodes Demonstration
 
+1 - Navigate to the https://www.globalbioticinteractions.org/data page. What ways exist to get the data and what are the differences?
+https://github.com/seltmann/globi-workshop-2021/blob/main/photos/data.png
+
+2 - How many records are in the GloBI dataset (interactions.tsv-snapshot)
+3 - Extract and make a file of only the Ixodes records using Globi_Ixodes_Data.sh script. Explain that .sh will help reducde size of dataset than can use R
+4 - Load trimmed dataset into R
+5 - Look at data headers
+6 - Do some visualization
+7 - Put entire dataset into SQLlite database
+
 
 
