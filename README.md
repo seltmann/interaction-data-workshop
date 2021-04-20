@@ -24,7 +24,7 @@ The proposed outcome of this workshop is a reusable Carpentries (https://carpent
 1 - Navigate to the https://www.globalbioticinteractions.org/data page. What ways exist to get the data and what are the differences?
 ![GloBI Data Page](/photos/data.png)
 
-2 - How many records are in the GloBI dataset (interactions.tsv-snapshot)
+2 - How many records are in the GloBI dataset (interactions.csv-snapshot version). Its a lot!
 > wc -l interactions.csv
 
 3 - Extract and make a file of only the Ixodes records using Globi_Ixodes_Data.sh script. Explain that .sh will help reducde size of dataset than can use R. This will take ~ 4 minutes and 12 seconds!
