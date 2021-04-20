@@ -35,7 +35,7 @@ The proposed outcome of this workshop is a reusable Carpentries (https://carpent
 > wc -l Ixodes_data_unique.tsv
 
 5 - Load trimmed dataset into R using R-studio
-> https://preview.github.io/?seltmann/globi-workshop-2021/blob/main/code/globi-example.html
+> [html preview](https://htmlpreview.github.io/?https://github.com/seltmann/globi-workshop-2021/blob/main/code/globi-example.html)
 
 6 - Put entire dataset into SQLlite database
 
