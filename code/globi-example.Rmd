@@ -12,61 +12,68 @@ library(rglobi)
 library(bipartite)
 library(igraph)
 library(ggplot2)
+library(here)
 ```
 
-```{r}
-# Set working directory
-setwd("~/Documents/globi-workshop-2021")
-```
-```{r}
+```{r read}
 # Read in data
-dat <- read.csv(file = "data/Ixodes_data_unique.csv")
+dat <- read_csv(here("data/Ixodes_data_unique.csv"))
 
 # Look at data structure
-str(dat)
-View(dat)
+#str(dat)
+#View(dat)
 ```
 
 ```{r}
-# Pull out if the source or target are X
-tick.source <- grep("Ixodes", dat$targetTaxonGenusName)
-tick.target <- grep("Ixodes", dat$sourceTaxonGenusName)
-
-
-# Only take unique observations
-tick.rows <- unique(c(tick.source, tick.target))
-
-str(tick.rows)
+#data cleaning. Remove sourceTaxonID = no:match
+dat_mod <- filter(dat, dat$sourceTaxonId != "no:match")
+#View(dat_mod)
 ```
 
 ```{r}
-#data cleaning. Lowercase all and filter to remove sourceTaxonID = no:match
-dat <- filter(dat, dat$sourceTaxonId != "no:match")
+#need to filter by taxon names. But first lets look at names
+#unique(dat$targetTaxonGenusName)
+#unique(dat$sourceTaxonGenusName)
+unique(tolower(dat$targetTaxonGenusName))
+unique(tolower(dat$sourceTaxonGenusName))
 ```
 
+```{r}
+# mutate to change to lowercase
+dat_mod_filtered <- dat_mod %>%
+  mutate(sourceTaxonGenusName = tolower(sourceTaxonGenusName)) %>%
+  mutate(targetTaxonGenusName = tolower(targetTaxonGenusName))
+unique(dat_mod_filtered$targetTaxonGenusName)
+unique(dat_mod_filtered$sourceTaxonGenusName)
+```
+
+```{r}
+# Filter out if the source or target are ixodes (lowercase).
+dat_mod_filtered <- filter(dat_mod_filtered, sourceTaxonGenusName == "ixodes" | targetTaxonGenusName == "ixodes")
+unique_interactions <- data.frame(dat_mod_filtered$targetTaxonGenusName,dat_mod_filtered$sourceTaxonGenusName)
+View(unique(unique_interactions))
+dim(unique(unique_interactions))
+```
+
+```{r}
+# mutate taxon names to lowercase
+dat_mod_filtered <- dat_mod %>%
+  mutate(sourceTaxonName = tolower(sourceTaxonName)) %>%
+  mutate(targetTaxonName = tolower(targetTaxonName))
+```
+
+```{r}
 #get interaction dataset
-interactions <- data.frame(dat$sourceTaxonName,dat$targetTaxonName,dat$interactionTypeName)
-
-unique(dat$sourceTaxonName)
-unique(dat$targetTaxonNam)
-unique(tolower(dat$targetTaxonNam))
-
+all_ixodes_interactions <- data.frame(dat_mod_filtered$sourceTaxonName,dat_mod_filtered$targetTaxonName,dat_mod_filtered$interactionTypeName)
+dim(unique(all_ixodes_interactions))
+head(all_ixodes_interactions)
+unique(dat_mod_filtered$interactionTypeName)
+```
+```{r}
 #create a new dataframe for a network graph (vertex, edges)
-bsk <- data.frame(dat$sourceTaxonName,dat$targetTaxonName)
+bsk <- unique(data.frame(dat_mod_filtered$sourceTaxonName,dat_mod_filtered$targetTaxonName))
 
-nrow(bsk)
-
-#unique taxa
-unique(dat$sourceTaxonName)
-
-#need to filter by interaction type
-unique(dat$targetTaxonName)
-unique(dat$sourceTaxonName)
-
-#look at data
-head(bsk)
-tail(bsk)
-
+dim(bsk)
 
 #describe network
 bsk.network<-graph.data.frame(bsk, directed=F)
@@ -82,7 +89,6 @@ E(bsk.network)
 
 #plot the graph
 plot(bsk.network,vertex.size=5, vertex.label=NA)
-
-#plot(g ,vertex.size=5, vertex.label=NA, layout=layout_as_bipartite)
+```
 
 
