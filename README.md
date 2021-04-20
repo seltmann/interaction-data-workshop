@@ -40,11 +40,17 @@ The proposed outcome of this workshop is a reusable Carpentries (https://carpent
 6 - Put entire dataset into SQLlite database
 ![GloBI Data Page](/photos/sql.png)
 > sqlite3 globi.db
+
 > .mode csv
+
 > .import Ixodes_data_unique.csv interactions
+
 > PRAGMA table_info(interactions);
+
 > SELECT sourceTaxonGenusName, count(sourceTaxonGenusName) FROM interactions group by sourceTaxonGenusName;
+
 > SELECT interactionTypeName, count(interactionTypeName) FROM interactions group by interactionTypeName;
+
 > .exit
 
 
