@@ -1,8 +1,4 @@
-## Global Biotic Interactions Workshop, April 2021
-
-
-[```Workshop Description```](#Workshop-Description) 
-
+This repository contains code examples used for the [Interaction Data Workshop](https://www.globalbioticinteractions.org/interaction-data-workshop/).
 
 ### Workshop Description
 
@@ -12,7 +8,7 @@
 
 Jorrit Poelen, Katja Seltmann
 
-[Interaction Data Workshop Website](https://www.globalbioticinteractions.org/interaction-data-workshop/)
+
 
 During this participatory workshop collection managers, researchers or data providers will use GloBI for data management and information retrieval. Our group exploration into the data will cover the data origins and data integration process and data products.
 
