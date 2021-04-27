@@ -8,24 +8,24 @@ output: html_document
 ```{r setup, include=FALSE}
 # Load libraries
 library(tidyverse)
-library(rglobi)
-library(bipartite)
 library(igraph)
 library(ggplot2)
 library(here)
 ```
+### Part 1: The goal of this section is to obtain a list of interactions where Ixodes is either as the source or target in an interaction. To do this, we need to do a little data cleaning.
 
 ```{r read, warning=FALSE}
-# Read in data
+# This CSV file is a subset of the GloBI database, but since we used grep to subset the data, we do not know if Ixodes is explicitly in the interaction or part of a note or comment.
+
+# Read in data and look at the columns. There are 88 columns.
 dat <- read_csv(here("data/Ixodes_data_unique.csv"))
 
 # Look at data structure
 #str(dat)
 #View(dat)
 ```
-
 ```{r}
-#data cleaning. Remove sourceTaxonID = no:match
+#data cleaning. Remove sourceTaxonID = no:match. no:match indicates that the taxon was blank. GloBI adds the term no:match if it cannot figure out what the name is.
 dat_mod <- filter(dat, dat$sourceTaxonId != "no:match")
 #View(dat_mod)
 ```
@@ -34,8 +34,6 @@ dat_mod <- filter(dat, dat$sourceTaxonId != "no:match")
 #need to filter by taxon names. But first lets look at names
 #unique(dat$targetTaxonGenusName)
 #unique(dat$sourceTaxonGenusName)
-unique(tolower(dat$targetTaxonGenusName))
-unique(tolower(dat$sourceTaxonGenusName))
 ```
 
 ```{r}
@@ -43,19 +41,27 @@ unique(tolower(dat$sourceTaxonGenusName))
 dat_mod_filtered <- dat_mod %>%
   mutate(sourceTaxonGenusName = tolower(sourceTaxonGenusName)) %>%
   mutate(targetTaxonGenusName = tolower(targetTaxonGenusName))
-unique(dat_mod_filtered$targetTaxonGenusName)
-unique(dat_mod_filtered$sourceTaxonGenusName)
+#unique(dat_mod_filtered$targetTaxonGenusName)
+#unique(dat_mod_filtered$sourceTaxonGenusName)
 ```
 
 ```{r}
 # Filter out if the source or target are ixodes (lowercase).
 dat_mod_filtered <- filter(dat_mod_filtered, sourceTaxonGenusName == "ixodes" | targetTaxonGenusName == "ixodes")
 unique_interactions <- data.frame(dat_mod_filtered$targetTaxonGenusName,dat_mod_filtered$sourceTaxonGenusName)
-View(unique(unique_interactions))
+#View(unique(unique_interactions))
 dim(unique(unique_interactions))
 ```
 
 ```{r}
+#write the data to a file
+#write.csv(dat_mod_filtered, "../data/ixodes_data_filtered.csv")
+```
+
+
+### Part 2: The goal of this section is to obtain a unique list of all Ixodes interactions in the dataset and get a list of all of the interactions.
+```{r}
+#create a unique list of all the interactions in a dataset
 # mutate taxon names to lowercase
 dat_mod_filtered <- dat_mod %>%
   mutate(sourceTaxonName = tolower(sourceTaxonName)) %>%
@@ -66,10 +72,14 @@ dat_mod_filtered <- dat_mod %>%
 #get interaction dataset
 all_ixodes_interactions <- data.frame(dat_mod_filtered$sourceTaxonName,dat_mod_filtered$targetTaxonName,dat_mod_filtered$interactionTypeName)
 dim(unique(all_ixodes_interactions))
-head(all_ixodes_interactions)
 unique(dat_mod_filtered$interactionTypeName)
 ```
+
+
+### Part 3: The goal of this section is to create a network graph of Ixodes interactions
+
 ```{r}
+#create a network graph in R
 #create a new dataframe for a network graph (vertex, edges)
 bsk <- unique(data.frame(dat_mod_filtered$sourceTaxonName,dat_mod_filtered$targetTaxonName))
 
